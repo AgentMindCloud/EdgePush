@@ -1,27 +1,78 @@
-import { Navigate, Route, Routes } from "react-router-dom";
+import { useEffect } from 'react';
+import { Navigate, Route, Routes, useNavigate } from 'react-router-dom';
+import { PracticeCard, PracticeWatch } from './components/Practice';
+import { Drawer } from './pages/Drawer';
+import { Home } from './pages/Home';
+import { Lab } from './pages/Lab';
+import { Radar } from './pages/Radar';
+import { War } from './pages/War';
 
-function Shell({ title }: { title: string }) {
+export function App() {
   return (
-    <main className="shell">
-      <header className="top">
-        <span className="wordmark">DESK</span>
-        <span className="clock">--:--</span>
-        <span className="live" aria-label="live" />
-      </header>
-      <p className="quiet">{title}</p>
-    </main>
+    <>
+      <Hotkeys />
+      <PracticeWatch />
+      <PracticeCard />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/war" element={<War />} />
+        <Route path="/lab" element={<Lab />} />
+        <Route path="/radar" element={<Radar />} />
+        <Route path="/drawer" element={<Drawer />} />
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
+    </>
   );
 }
 
-export default function App() {
-  return (
-    <Routes>
-      <Route path="/" element={<Shell title="home skeleton" />} />
-      <Route path="/war" element={<Shell title="war skeleton" />} />
-      <Route path="/lab" element={<Shell title="lab skeleton" />} />
-      <Route path="/radar" element={<Shell title="radar skeleton" />} />
-      <Route path="/drawer" element={<Shell title="drawer skeleton" />} />
-      <Route path="*" element={<Navigate to="/" replace />} />
-    </Routes>
-  );
+function Hotkeys() {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    function onKey(event: KeyboardEvent) {
+      const target = event.target;
+      if (target instanceof HTMLElement && (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA')) return;
+      const path =
+        event.code === 'Digit1' || event.code === 'Numpad1' ? '/war'
+        : event.code === 'Digit2' || event.code === 'Numpad2' ? '/lab'
+        : event.code === 'Digit3' || event.code === 'Numpad3' ? '/radar'
+        : event.code === 'Digit0' || event.code === 'Numpad0' ? '/drawer'
+        : event.code === 'Escape' ? '/'
+        : null;
+      if (!path) return;
+      event.preventDefault();
+      if (window.location.pathname === path) return;
+      navigate({ pathname: path, search: window.location.search });
+    }
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [navigate]);
+
+  useEffect(() => {
+    let startX = 0;
+    let startY = 0;
+    function onStart(event: TouchEvent) {
+      const touch = event.changedTouches[0];
+      if (!touch) return;
+      startX = touch.clientX;
+      startY = touch.clientY;
+    }
+    function onEnd(event: TouchEvent) {
+      const touch = event.changedTouches[0];
+      if (!touch) return;
+      const dx = touch.clientX - startX;
+      const dy = touch.clientY - startY;
+      if (dx <= -60 && Math.abs(dy) < 40 && window.location.pathname !== '/') {
+        navigate({ pathname: '/', search: window.location.search });
+      }
+    }
+    window.addEventListener('touchstart', onStart, { passive: true });
+    window.addEventListener('touchend', onEnd, { passive: true });
+    return () => {
+      window.removeEventListener('touchstart', onStart);
+      window.removeEventListener('touchend', onEnd);
+    };
+  }, [navigate]);
+
+  return null;
 }

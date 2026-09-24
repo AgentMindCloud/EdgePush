@@ -1,28 +1,17 @@
-# EdgePush
+# DESK
 
-Visual daily desk for the edge use cases (WAR / LAB / RADAR).
-Phone-first. Almost no text. Color is the UI.
+Double-click START-DESK.bat
 
-Repo: https://github.com/AgentMindCloud/EdgePush
+Wait for the browser.
 
-## Human use (when the app actually runs)
+Green, gold, or gray means no need to tap.
+Coral or red means tap that tile.
+Then choose KEEP or KILL, or LIVE or KILL.
 
-1. Double-click `START-DESK.bat` on Windows, or open the published URL on the phone.
-2. Around 10:00–11:00 Asia/Ho_Chi_Minh: look at three tiles.
-3. Tap only coral/red. Esc or back = home.
+Esc or the back control returns home.
 
-## Dev
+Close the black window when finished.
 
-```bash
-npm install
-npm run dev -- --host 127.0.0.1 --port 4173
-npm run build
-npm run preview -- --host 127.0.0.1 --port 4173
-```
+Practice: Drawer, then Practice.
 
-Grok Build: read `AGENTS.md` then `prompts/GROK_BUILD_MOBILE_DESK.md`.
-
-## Status
-
-Skeleton + canon only. Local Windows build existed at `C:\Users\louis\desk`.
-This repo is the source of truth. Mobile / real browser quality is the next Build pass.
+Public host is a later pass.

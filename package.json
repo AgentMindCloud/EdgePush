@@ -8,7 +8,7 @@
     "build": "tsc --noEmit && vite build",
     "preview": "vite preview --host 127.0.0.1 --port 4173 --strictPort",
     "start:desk": "vite preview --host 127.0.0.1 --port 4173 --strictPort",
-    "start:lan": "vite preview --host 0.0.0.0 --port 4173 --strictPort"
+    "start:lan": "node scripts/print-lan.mjs && vite preview --host 0.0.0.0 --port 4173 --strictPort"
   },
   "dependencies": {
     "react": "^19.0.0",
