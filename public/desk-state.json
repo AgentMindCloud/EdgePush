@@ -1,0 +1,63 @@
+{
+  "v": "1",
+  "clock_tz": "Asia/Ho_Chi_Minh",
+  "war": {
+    "pip": "green",
+    "verdict": "board quiet since last brief",
+    "sparkline": [4, 5, 4, 6, 8, 7, 5, 4, 3, 4, 5, 4],
+    "updated_at": "2026-09-24T01:00:00Z"
+  },
+  "lab": {
+    "hypothesis": "kill-test still stands",
+    "stamp": "live",
+    "plot": [1, 2, 2, 3, 1, 0, 2],
+    "updated_at": "2026-09-24T01:00:00Z"
+  },
+  "radar": {
+    "roster": [
+      { "bot_id": "market-cos", "name": "CoS", "lane": "route" },
+      { "bot_id": "frontier-watch", "name": "Frontier", "lane": "watch" },
+      { "bot_id": "lab", "name": "Lab", "lane": "ship" },
+      { "bot_id": "protocol-scout", "name": "Scout", "lane": "watch" }
+    ]
+  },
+  "drawer": [
+    { "id": "world", "name": "World", "status": "sleeping" },
+    { "id": "foundry", "name": "Foundry", "status": "sleeping" },
+    { "id": "voice", "name": "Voice", "status": "sleeping" },
+    { "id": "xcard", "name": "X-Card", "status": "sleeping" },
+    { "id": "physics", "name": "Physics", "status": "sleeping" },
+    { "id": "film", "name": "Film", "status": "sleeping" },
+    { "id": "economy", "name": "Economy", "status": "sleeping" }
+  ],
+  "events": [
+    {
+      "v": "0.1",
+      "ts": "2026-09-24T16:00:00Z",
+      "event_id": "e1",
+      "bot_id": "market-cos",
+      "job_id": "morning-queue",
+      "parent_job_id": null,
+      "peer_bot_ids": ["frontier-watch"],
+      "status": "collab",
+      "step": "queued three cards",
+      "intent": "human stamps red only",
+      "artifact_url": null,
+      "wait_reason": null
+    },
+    {
+      "v": "0.1",
+      "ts": "2026-09-24T16:05:00Z",
+      "event_id": "e2",
+      "bot_id": "lab",
+      "job_id": "kill-test-1",
+      "parent_job_id": null,
+      "peer_bot_ids": [],
+      "status": "blocked",
+      "step": "awaiting stamp",
+      "intent": "live or kill",
+      "artifact_url": null,
+      "wait_reason": "human stamp required"
+    }
+  ]
+}
