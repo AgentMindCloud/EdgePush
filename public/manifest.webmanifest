@@ -1,0 +1,8 @@
+{
+  "name": "DESK",
+  "short_name": "DESK",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#07080B",
+  "theme_color": "#07080B"
+}
