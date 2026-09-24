@@ -22,6 +22,7 @@ export type DrawerDoor = { id: string; name: string; status: string };
 
 export type DeskState = {
   v: '1';
+  rev: number;
   clock_tz: string;
   war: { pip: PipColor; verdict: string; sparkline: number[]; updated_at: string };
   lab: { hypothesis: string; stamp: LabStamp; plot: number[]; updated_at: string };

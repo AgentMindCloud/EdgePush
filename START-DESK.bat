@@ -38,6 +38,8 @@ if "%NEED%"=="1" (
   )
 )
 
+start "DESK-DROP" /MIN cmd /c "node scripts\watch-drop.mjs"
+
 powershell -NoProfile -ExecutionPolicy Bypass -Command "try { $c = New-Object System.Net.Sockets.TcpClient; $iar = $c.BeginConnect('127.0.0.1',4173,$null,$null); if (-not $iar.AsyncWaitHandle.WaitOne(400,$false)) { exit 1 }; $c.EndConnect($iar); $c.Close(); exit 0 } catch { exit 1 }"
 if not errorlevel 1 (
   start "" "http://127.0.0.1:4173/"

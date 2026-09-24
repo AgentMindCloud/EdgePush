@@ -16,12 +16,16 @@ const practiceListeners = new Set<() => void>();
 
 let snapshot: DeskState | null = readStored();
 const listeners = new Set<() => void>();
-let loading = false;
+let started = false;
 
 export function ensureLoaded(): void {
-  if (snapshot || loading) return;
-  loading = true;
-  void hydrate();
+  if (started) return;
+  started = true;
+  void refresh();
+  window.setInterval(() => void refresh(), 30_000);
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'visible') void refresh();
+  });
 }
 
 export function subscribe(listener: () => void): () => void {
@@ -107,6 +111,18 @@ export function labTone(stamp: LabStamp): 'coral' | 'gold' | 'emerald' {
 export function eightWords(value: string): string {
   const words = value.trim().split(/\s+/).filter(Boolean).slice(0, 8);
   return words.length > 0 ? words.join(' ') : 'quiet';
+}
+
+export function mergeDesk(local: DeskState | null, file: DeskState): DeskState {
+  if (!local) return file;
+  if (file.rev < local.rev) return local;
+  if (file.rev > local.rev) return file;
+  const war = newer(file.war.updated_at, local.war.updated_at) ? file.war : local.war;
+  const lab = newer(file.lab.updated_at, local.lab.updated_at) ? file.lab : local.lab;
+  const seen = new Set(local.events.map((event) => event.event_id));
+  const added = file.events.filter((event) => !seen.has(event.event_id));
+  if (war === local.war && lab === local.lab && added.length === 0) return local;
+  return { ...local, war, lab, events: [...local.events, ...added] };
 }
 
 export function isDegraded(state: DeskState): boolean {
@@ -211,27 +227,40 @@ function coralEvent(): DeskEvent {
   };
 }
 
-async function hydrate(): Promise<void> {
-  try {
-    const response = await fetch('/desk-state.json');
-    if (!response.ok) throw new Error('missing');
-    const parsed = parseState(await response.json());
-    if (!parsed) throw new Error('invalid');
-    if (!snapshot) {
-      snapshot = parsed;
-      try {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(parsed));
-      } catch {
-        /* storage may be blocked */
-      }
-      emit();
-    }
-  } catch {
+async function refresh(): Promise<void> {
+  const file = await fetchFile();
+  if (!file) {
     if (!snapshot) {
       snapshot = emptyState();
       emit();
     }
+    return;
   }
+  const next = mergeDesk(snapshot, file);
+  if (next === snapshot) return;
+  snapshot = next;
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(snapshot));
+  } catch {
+    /* storage may be blocked */
+  }
+  emit();
+}
+
+async function fetchFile(): Promise<DeskState | null> {
+  try {
+    const response = await fetch('/desk-state.json', { cache: 'no-store' });
+    if (!response.ok) return null;
+    return parseState(await response.json());
+  } catch {
+    return null;
+  }
+}
+
+function newer(fileStamp: string, localStamp: string): boolean {
+  if (!fileStamp) return false;
+  if (!localStamp) return true;
+  return fileStamp > localStamp;
 }
 
 function mutate(change: (state: DeskState) => DeskState): void {
@@ -297,6 +326,7 @@ export function parseState(raw: unknown): DeskState | null {
   const radar = state.radar && typeof state.radar === 'object' ? (state.radar as Record<string, unknown>) : {};
   return {
     v: '1',
+    rev: typeof state.rev === 'number' && Number.isFinite(state.rev) ? state.rev : 0,
     clock_tz: typeof state.clock_tz === 'string' && state.clock_tz ? state.clock_tz : 'Asia/Ho_Chi_Minh',
     war: {
       pip: war.pip,
@@ -344,6 +374,7 @@ function doorsOf(raw: unknown): DeskState['drawer'] {
 function emptyState(): DeskState {
   return {
     v: '1',
+    rev: 0,
     clock_tz: 'Asia/Ho_Chi_Minh',
     war: { pip: 'green', verdict: 'quiet', sparkline: [], updated_at: '' },
     lab: { hypothesis: 'quiet', stamp: 'none', plot: [], updated_at: '' },

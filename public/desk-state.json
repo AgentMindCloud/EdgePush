@@ -1,17 +1,18 @@
 {
   "v": "1",
+  "rev": 2,
   "clock_tz": "Asia/Ho_Chi_Minh",
   "war": {
     "pip": "green",
-    "verdict": "board quiet since last brief",
-    "sparkline": [4, 5, 4, 6, 8, 7, 5, 4, 3, 4, 5, 4],
-    "updated_at": "2026-09-24T01:00:00Z"
+    "verdict": "quiet",
+    "sparkline": [],
+    "updated_at": "2026-09-25T03:00:00Z"
   },
   "lab": {
-    "hypothesis": "kill-test still stands",
+    "hypothesis": "quiet",
     "stamp": "live",
-    "plot": [1, 2, 2, 3, 1, 0, 2],
-    "updated_at": "2026-09-24T01:00:00Z"
+    "plot": [],
+    "updated_at": "2026-09-25T03:00:00Z"
   },
   "radar": {
     "roster": [
@@ -30,104 +31,5 @@
     { "id": "film", "name": "Film", "status": "sleeping" },
     { "id": "economy", "name": "Economy", "status": "sleeping" }
   ],
-  "events": [
-    {
-      "v": "0.1",
-      "ts": "2026-09-24T00:30:00Z",
-      "event_id": "evt-lab-1",
-      "bot_id": "lab",
-      "job_id": "kill-test",
-      "parent_job_id": null,
-      "peer_bot_ids": [],
-      "status": "done",
-      "step": "file the last sample",
-      "intent": "",
-      "artifact_url": null,
-      "wait_reason": null
-    },
-    {
-      "v": "0.1",
-      "ts": "2026-09-24T00:36:00Z",
-      "event_id": "evt-route-1",
-      "bot_id": "market-cos",
-      "job_id": "route-queue",
-      "parent_job_id": "morning-pass",
-      "peer_bot_ids": [],
-      "status": "created",
-      "step": "queue the next pass",
-      "intent": "stay behind the lead",
-      "artifact_url": null,
-      "wait_reason": null
-    },
-    {
-      "v": "0.1",
-      "ts": "2026-09-24T00:40:00Z",
-      "event_id": "evt-morning-1",
-      "bot_id": "market-cos",
-      "job_id": "morning-pass",
-      "parent_job_id": null,
-      "peer_bot_ids": [],
-      "status": "accepted",
-      "step": "open the morning board",
-      "intent": "read color before coffee",
-      "artifact_url": null,
-      "wait_reason": null
-    },
-    {
-      "v": "0.1",
-      "ts": "2026-09-24T00:44:00Z",
-      "event_id": "evt-sweep-1",
-      "bot_id": "frontier-watch",
-      "job_id": "frontier-sweep",
-      "parent_job_id": null,
-      "peer_bot_ids": [],
-      "status": "step",
-      "step": "scan the quiet lanes",
-      "intent": "surface any new drift",
-      "artifact_url": null,
-      "wait_reason": null
-    },
-    {
-      "v": "0.1",
-      "ts": "2026-09-24T00:46:00Z",
-      "event_id": "evt-morning-2",
-      "bot_id": "protocol-scout",
-      "job_id": "morning-pass",
-      "parent_job_id": null,
-      "peer_bot_ids": [],
-      "status": "step",
-      "step": "check the third claim",
-      "intent": "test the spare angle",
-      "artifact_url": null,
-      "wait_reason": null
-    },
-    {
-      "v": "0.1",
-      "ts": "2026-09-24T00:52:00Z",
-      "event_id": "evt-morning-3",
-      "bot_id": "market-cos",
-      "job_id": "morning-pass",
-      "parent_job_id": null,
-      "peer_bot_ids": ["frontier-watch"],
-      "status": "collab",
-      "step": "compare notes with frontier",
-      "intent": "align the overnight read",
-      "artifact_url": null,
-      "wait_reason": null
-    },
-    {
-      "v": "0.1",
-      "ts": "2026-09-24T00:55:00Z",
-      "event_id": "evt-gate-1",
-      "bot_id": "protocol-scout",
-      "job_id": "claim-gate",
-      "parent_job_id": null,
-      "peer_bot_ids": [],
-      "status": "blocked",
-      "step": "hold the open claims",
-      "intent": "wait for a human tap",
-      "artifact_url": null,
-      "wait_reason": "human must keep or kill"
-    }
-  ]
+  "events": []
 }

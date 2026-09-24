@@ -1,6 +1,6 @@
 # desk-state.json
 
-`v` is `"1"`. Boot reads this file, then prefers `localStorage` key `desk.v1` when that value also has `v: "1"`. The first successful load is mirrored into `desk.v1`. Stamps write the whole document back to that key. `?demo=coral` and `?demo=quiet` change the view only. They do not write storage.
+`v` is `"1"`. `rev` is a number. A saved `desk.v1` with no `rev` counts as `0`. On load, every 30 seconds, and when the tab is shown again, the app fetches this file with no cache. A greater `rev` replaces war, lab, roster, drawer, and events. The same `rev` keeps a stamp whose `updated_at` is newer and only adds unseen events. `drop/desk-state.json` is copied onto this file by `scripts/watch-drop.mjs`. `?demo=coral` and `?demo=quiet` change the view only. They do not write storage.
 
 ## clock_tz
 
