@@ -115,6 +115,9 @@ export function eightWords(value: string): string {
 
 export function mergeDesk(local: DeskState | null, file: DeskState): DeskState {
   if (!local) return file;
+  const localEmpty = local.events.length === 0 && local.war.sparkline.length === 0;
+  const fileLive = file.events.length > 0 || file.war.sparkline.length > 0;
+  if (localEmpty && fileLive) return file;
   if (file.rev < local.rev) return local;
   if (file.rev > local.rev) return file;
   const war = newer(file.war.updated_at, local.war.updated_at) ? file.war : local.war;
@@ -249,7 +252,7 @@ async function refresh(): Promise<void> {
 
 async function fetchFile(): Promise<DeskState | null> {
   try {
-    const response = await fetch('/desk-state.json', { cache: 'no-store' });
+    const response = await fetch(`${import.meta.env.BASE_URL}desk-state.json`, { cache: 'no-store' });
     if (!response.ok) return null;
     return parseState(await response.json());
   } catch {
